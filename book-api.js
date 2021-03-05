@@ -25,3 +25,22 @@ app.post('/book', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
+app.get('/books', (req, res) => {
+    res.json(books);
+});
+
+app.get('/book/:isbn', (req, res) => {
+    // Reading isbn from the URL
+    const isbn = req.params.isbn;
+
+    // Searching books for the isbn
+    for (let book of books) {
+        if (book.isbn === isbn) {
+            res.json(book);
+            return;
+        }
+    }
+
+    // Sending 404 when not found something is a good practice
+    res.status(404).send('Book not found');
+});
